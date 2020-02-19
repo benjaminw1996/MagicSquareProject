@@ -10,6 +10,10 @@ namespace MagicSquareProject
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Hello, here's to a new beginning...");
+
+            Console.Write("\n\nPress any key to end program...");
+            Console.ReadKey();
         }
     }
 }
