@@ -40,6 +40,8 @@ namespace MagicSquareProject{
             //RandomiseArray function is called to randomise the array that was just filled, the DisplayArray function is then called to display the output
             RandomiseArray();
             DisplayArray();
+
+            CheckIfMagicSquare();
         }
 
         /// <summary>
@@ -81,6 +83,48 @@ namespace MagicSquareProject{
                     m_magicSquare[x_index, y_index] = temp;
                 }
             }
+        }
+
+        /// <summary>
+        /// Function to test if the generated integer array is a magic square. First it will loop through and check the rows, and then the collumns
+        /// and then finally the diagonals.
+        /// </summary>
+        /// <returns>Boolean that states if the statement "It is a magic square" is true or false.</returns>
+        public static bool CheckIfMagicSquare() {
+            //Boolean variable to return is declared.
+            bool isMagic = false;
+            //Integer variables to be used throughout the function are declared and initialised.
+            int m_sum = 0;
+            int tempSum;
+
+            //Integer array is looped through and the rows are added up and compared to each other.
+            for (int i = 0; i < m_size; i++) {
+                //The integer to store the sum of the current row is reset to 0 at the end of each loop through the rows.
+                tempSum = 0;
+                
+                for (int j = 0; j < m_size; j++) {
+                    //The current value in the row is added to the tempSum.
+                    tempSum += m_magicSquare[i, j];
+                }
+
+                //The values of the sum of the first row and the next row are compared.
+                //First the value of the sum of the first row is checked to see if it is still 0, if its not then the check is performed. 
+                //If it is 0 then the tempSum holds the sum of the first row and is then given to the m_sum variable.
+                if( m_sum != 0){
+                    if(tempSum != m_sum) {
+                        //If the current row's sum does not equal the sum of the other rows then the boolean is set to false and is returned ending the rest of the loop
+                        isMagic = false;
+                        return isMagic;
+                    } else {
+                        //If the sums are equal then the bool is temporarily set to true and then the loop moves onto the next row to compare.
+                        isMagic = true;
+                    }
+                } else {
+                    m_sum = tempSum;
+                }
+            }
+
+            return isMagic;
         }
 
         /// <summary>
