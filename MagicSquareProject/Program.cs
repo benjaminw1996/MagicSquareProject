@@ -22,7 +22,7 @@ namespace MagicSquareProject{
             //This loop is used to get the user to input a valid size for the magic square, it is also used to warn the user if they are entering a number that is too big
             while (!runProgram) {
                 //User is asked to input the desired width of the magic square
-                Console.Write("\nPlease input a width of 3 or more the desired magic square (please note that anything greater than 3 may take a while to complete) - ");
+                Console.Write("\nPlease input a width of 3 or more of the desired magic square (please note that anything greater than 3 may take a while to complete) - ");
 
                 //The users reply is attempted to be parsed as an integer, if this fails the user is prompted to enter a valid response.
                 try {
@@ -121,7 +121,7 @@ namespace MagicSquareProject{
         }
 
         /// <summary>
-        /// Function to test if the generated integer array is a magic square. First it will loop through and check the rows, and then the collumns
+        /// Function to test if the generated integer array is a magic square. First it will loop through and check the rows, and then the columns
         /// and then finally the diagonals.
         /// </summary>
         /// <returns>Boolean that states if the statement "It is a magic square" is true or false.</returns>
@@ -135,14 +135,14 @@ namespace MagicSquareProject{
             int diagonalSum1 = 0;
             int diagonalSum2 = 0;
 
-            //Integer array is looped through and the rows are added up and compared to each other.
+            //Integer array is looped through and the rows, columns and diagonals are added up and compared to each other.
             for (int i = 0; i < m_size; i++) {
                 //The integer to store the sum of the current row is reset to 0 at the end of each loop through the rows.
                 tempRowSum = 0;
                 tempColumnSum = 0;
                 
                 for (int j = 0; j < m_size; j++) {
-                    //The current value in the row is added to the tempSum.
+                    //The current value in the row  and column are added to the tempRowSum and tempColumnSum respectively.
                     tempRowSum += m_magicSquare[i, j];
                     tempColumnSum += m_magicSquare[j, i];
 
