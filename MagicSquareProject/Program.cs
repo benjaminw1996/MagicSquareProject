@@ -9,7 +9,6 @@ namespace MagicSquareProject{
         //Public variables to use throughout the program
         static int m_size;
         static int[,] m_magicSquare;
-        static int m_numberOfSquares;
         //Random number generator initialised to use throughout the program
         static Random random = new Random();
 
@@ -19,7 +18,6 @@ namespace MagicSquareProject{
             //User is asked to input the desired width of the magic square
             Console.Write("Please input width of desired magic square - ");
             m_size = Int16.Parse(Console.ReadLine());
-            m_numberOfSquares = m_size * m_size;
 
             //Magic square generator function is called 
             MagicSquareGenerator();
@@ -33,6 +31,8 @@ namespace MagicSquareProject{
         /// Function to generate a new random integer array to then be tested to see if it is a magic square
         /// </summary>
         public static void MagicSquareGenerator() {
+            bool foundMagicSquare = false;
+
             //FillIntegerArray function is called to fill the array, the DisplayArray function is then called to display the output
             FillIntegerArray();
             DisplayArray();
@@ -41,7 +41,9 @@ namespace MagicSquareProject{
             RandomiseArray();
             DisplayArray();
 
-            CheckIfMagicSquare();
+            foundMagicSquare = CheckIfMagicSquare();
+
+            Console.WriteLine("\n" + foundMagicSquare);
         }
 
         /// <summary>
@@ -97,6 +99,8 @@ namespace MagicSquareProject{
             int m_sum = 0;
             int tempRowSum;
             int tempColumnSum;
+            int diagonalSum1 = 0;
+            int diagonalSum2 = 0;
 
             //Integer array is looped through and the rows are added up and compared to each other.
             for (int i = 0; i < m_size; i++) {
@@ -108,13 +112,25 @@ namespace MagicSquareProject{
                     //The current value in the row is added to the tempSum.
                     tempRowSum += m_magicSquare[i, j];
                     tempColumnSum += m_magicSquare[j, i];
+
+                    //If the index i and j are equal then we are currently looking at the square that is in one of the diagonals
+                    //The value of this square is then added to the diagonalSum1 int
+                    if (i == j) {
+                        diagonalSum1 += m_magicSquare[i, j];
+                    }
+
+                    //If the index i and j added together are equal to the width of the 2d array -1 (this is because of the 0 indexing of arrays)
+                    //Then we are looking at the square which is the other diagonal, the value of this square is then added to the diagonalSum2 int
+                    if (i + j == m_size - 1) {
+                        diagonalSum2 += m_magicSquare[i, j];
+                    }
                 }
 
                 //The values of the sums of the current row and columns are checked against the first sum taken.
                 //First the value of the sum of the first row is checked to see if it is still 0, if its not then the sums of the current row and column are compared to it. 
                 //If it is 0 then the tempRowSum holds the sum of the first row and is then given to the m_sum variable.
-                if( m_sum != 0){
-                    if(tempRowSum != m_sum || tempColumnSum != m_sum) {
+                if ( m_sum != 0){
+                    if (tempRowSum != m_sum || tempColumnSum != m_sum) {
                         //If the current row's sum does not equal the sum of the other rows then the boolean is set to false and is returned ending the rest of the loop
                         isMagic = false;
                         return isMagic;
@@ -130,7 +146,18 @@ namespace MagicSquareProject{
                 }
             }
 
-            return isMagic;
+            //If the function reaches this point, it should mean that all the rows and columns are equal to each other.
+            //The last check to perform is to compare the sums of the diagonals to the sum of the first row looked at. 
+            //m_sum != 0 is added to make sure that the for loop above has done its job correctly, if it is 0 then something has gone wrong and false will be returned.
+            if (m_sum != 0 && m_sum == diagonalSum1 && m_sum == diagonalSum2) {
+                isMagic = true;
+
+                return isMagic;
+            } else {
+                isMagic = false;
+
+                return isMagic;
+            }
         }
 
         /// <summary>
