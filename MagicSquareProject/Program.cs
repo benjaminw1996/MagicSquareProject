@@ -15,10 +15,40 @@ namespace MagicSquareProject{
         static void Main(string[] args){
             Console.WriteLine("Hello, here's to a new beginning...");
 
-            //User is asked to input the desired width of the magic square
-            Console.Write("Please input width of desired magic square - ");
-            m_size = Int16.Parse(Console.ReadLine());
+            //Local variables to be used in the following loop. runProgram is used to hold the program while the user inputs a valid size and userReply is used to store the users replies to questions.
+            bool runProgram = false;
+            string userReply = "";
 
+            //This loop is used to get the user to input a valid size for the magic square, it is also used to warn the user if they are entering a number that is too big
+            while (!runProgram) {
+                //User is asked to input the desired width of the magic square
+                Console.Write("\nPlease input a width of 3 or more the desired magic square (please note that anything greater than 3 may take a while to complete) - ");
+
+                //The users reply is attempted to be parsed as an integer, if this fails the user is prompted to enter a valid response.
+                try {
+                    m_size = Int16.Parse(Console.ReadLine());
+                } catch {
+
+                }
+
+                //If the size the user enters is larger than 3 then they are warned that this may take a while to find a solution so they are prompted to confirm they want to continue.
+                if(m_size > 3) {
+                    Console.Write("\nAre you sure you wish to proceed with that size? The program may take a while to find a solution - (Y/N) - ");
+                    userReply = Console.ReadLine();
+                    //If they wish to continue with the larger reply then the program continues, if not they can enter a new size.
+                    if(userReply.ToLower() == "y") {
+                        runProgram = true;
+                    } else {
+                        runProgram = false;
+                    }
+                //If their size is smaller than 3 they are prompted to enter a valid size.    
+                } else if (m_size < 3) {
+                    Console.Write("\nPlease enter a valid size.");
+                    runProgram = false;
+                } else {
+                    runProgram = true;
+                }
+            }
             //Magic square generator function is called 
             MagicSquareGenerator();
 
@@ -33,17 +63,20 @@ namespace MagicSquareProject{
         public static void MagicSquareGenerator() {
             bool foundMagicSquare = false;
 
-            //FillIntegerArray function is called to fill the array, the DisplayArray function is then called to display the output
-            FillIntegerArray();
+            while (foundMagicSquare == false) {
+                //FillIntegerArray function is called to fill the array, the DisplayArray function is then called to display the output
+                FillIntegerArray();
+                //DisplayArray();
+
+                //RandomiseArray function is called to randomise the array that was just filled, the DisplayArray function is then called to display the output
+                RandomiseArray();
+                //DisplayArray();
+
+                foundMagicSquare = CheckIfMagicSquare();
+            }
+
             DisplayArray();
-
-            //RandomiseArray function is called to randomise the array that was just filled, the DisplayArray function is then called to display the output
-            RandomiseArray();
-            DisplayArray();
-
-            foundMagicSquare = CheckIfMagicSquare();
-
-            Console.WriteLine("\n" + foundMagicSquare);
+            Console.WriteLine("\nWe have found a magic square!!");
         }
 
         /// <summary>
